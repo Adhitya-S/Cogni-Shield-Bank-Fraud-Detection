@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis Shield - Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="loader-overlay">
+        <div class="loader-spinner"></div>
+        <p>Analyzing Transactions...</p>
+    </div>
+
+    <div class="background-gradient"></div>
+    <div class="content-wrapper">
+        <a href="/" class="nav-link">← Home</a>
+        <div class="glass-container animate-fade-in">
+            <header class="main-header">
+                <h1>Fraud Detection Tool</h1>
+                <p>Select an analysis method below</p>
+            </header>
+
+            <div class="tabs">
+                <button class="tab-link active" data-color="#00C9FF" onclick="openTab(event, 'upload')">Upload CSV</button>
+                <button class="tab-link" data-color="#E84D8A" onclick="openTab(event, 'manual')">Enter Manually</button>
+            </div>
+
+            <div class="form-container">
+                <div id="upload" class="tab-content active-content">
+                    <form id="upload-form" action="/detector" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="form_type" value="upload_csv">
+                        <label for="file" class="file-label">
+                            <span class="file-label-icon">📁</span>
+                            <span class="file-label-text">Click to Upload a CSV File</span>
+                        </label>
+                        <input type="file" id="file" name="file" accept=".csv" required onchange="updateFileName(this)">
+                        <button type="submit" class="btn-glow">Analyze File</button>
+                    </form>
+                </div>
+
+                <div id="manual" class="tab-content">
+                    <form id="manual-form" action="/detector" method="post">
+                        <input type="hidden" name="form_type" value="manual_entry">
+                        
+                        <div class="form-grid">
+                            <div class="form-group"><label>Income</label><input type="number" step="any" name="income" value="0.5" required></div>
+                            <div class="form-group"><label>Age</label><input type="number" name="customer_age" value="30" required></div>
+                            <div class="form-group"><label>Credit Score</label><input type="number" name="credit_risk_score" value="150" required></div>
+                            <div class="form-group"><label>Name-Email Similarity</label><input type="number" step="any" name="name_email_similarity" value="0.5" required></div>
+                            <div class="form-group"><label>Prev Address Months</label><input type="number" name="prev_address_months_count" value="12" required></div>
+                            <div class="form-group"><label>Current Address Months</label><input type="number" name="current_address_months_count" value="24" required></div>
+                            <div class="form-group"><label>Days Since Request</label><input type="number" step="any" name="days_since_request" value="5" required></div>
+                            <div class="form-group"><label>Intended Balance Amount</label><input type="number" step="any" name="intended_balcon_amount" value="100" required></div>
+                            <div class="form-group"><label>Zip Count (4w)</label><input type="number" name="zip_count_4w" value="1200" required></div>
+                            <div class="form-group"><label>Velocity (6h)</label><input type="number" step="any" name="velocity_6h" value="5000" required></div>
+                            <div class="form-group"><label>Velocity (24h)</label><input type="number" step="any" name="velocity_24h" value="10000" required></div>
+                            <div class="form-group"><label>Velocity (4w)</label><input type="number" step="any" name="velocity_4w" value="8000" required></div>
+                            <div class="form-group"><label>Bank Branch Count (8w)</label><input type="number" name="bank_branch_count_8w" value="10" required></div>
+                            <div class="form-group"><label>Distinct Emails (4w)</label><input type="number" name="date_of_birth_distinct_emails_4w" value="5" required></div>
+                            <div class="form-group"><label>Bank Months Count</label><input type="number" name="bank_months_count" value="24" required></div>
+                            <div class="form-group"><label>Proposed Credit Limit</label><input type="number" name="proposed_credit_limit" value="1000" required></div>
+                            <div class="form-group"><label>Session (minutes)</label><input type="number" step="any" name="session_length_in_minutes" value="15.5" required></div>
+                            <div class="form-group"><label>Device Distinct Emails (8w)</label><input type="number" name="device_distinct_emails_8w" value="1" required></div>
+                            <div class="form-group"><label>Device Fraud Count</label><input type="number" name="device_fraud_count" value="0" required></div>
+                            <div class="form-group"><label>Month</label><input type="number" name="month" value="5" required></div>
+
+                            <div class="form-group"><label>Payment Type</label><select name="payment_type" required><option value="AA">AA</option><option value="AB">AB</option><option value="AC">AC</option><option value="AD">AD</option><option value="AE">AE</option></select></div>
+                            <div class="form-group"><label>Employment Status</label><select name="employment_status" required><option value="CA">CA</option><option value="CB">CB</option><option value="CC">CC</option><option value="CD">CD</option><option value="CE">CE</option><option value="CF">CF</option><option value="CG">CG</option></select></div>
+                            <div class="form-group"><label>Housing Status</label><select name="housing_status" required><option value="BA">BA</option><option value="BB">BB</option><option value="BC">BC</option><option value="BD">BD</option><option value="BE">BE</option><option value="BF">BF</option><option value="BG">BG</option></select></div>
+                            <div class="form-group"><label>Source</label><select name="source" required><option value="INTERNET">INTERNET</option><option value="TELEAPP">TELEAPP</option></select></div>
+                            <div class="form-group"><label>Device OS</label><select name="device_os" required><option value="windows">Windows</option><option value="linux">Linux</option><option value="macintosh">Macintosh</option><option value="other">Other</option><option value="x11">X11</option></select></div>
+                            <div class="form-group"><label>Email is Free?</label><select name="email_is_free" required><option value="1">Yes</option><option value="0">No</option></select></div>
+                            <div class="form-group"><label>Phone (Home) Valid?</label><select name="phone_home_valid" required><option value="1">Yes</option><option value="0">No</option></select></div>
+                            <div class="form-group"><label>Phone (Mobile) Valid?</label><select name="phone_mobile_valid" required><option value="1">Yes</option><option value="0">No</option></select></div>
+                            <div class="form-group"><label>Has Other Cards?</label><select name="has_other_cards" required><option value="1">Yes</option><option value="0">No</option></select></div>
+                            <div class="form-group"><label>Foreign Request?</label><select name="foreign_request" required><option value="1">Yes</option><option value="0">No</option></select></div>
+                            <div class="form-group"><label>Keep Alive Session?</label><select name="keep_alive_session" required><option value="1">Yes</option><option value="0">No</option></select></div>
+                        </div>
+                        <button type="submit" class="btn-glow">Check Transaction</button>
+                    </form>
+                </div>
+            </div>
+
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        function openTab(evt, tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-content'));
+            document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active-content');
+            evt.currentTarget.classList.add('active');
+            document.documentElement.style.setProperty('--glow-color', evt.currentTarget.dataset.color);
+        }
+        function updateFileName(input) {
+            const fileLabelText = document.querySelector('.file-label-text');
+            if (input.files.length > 0) {
+                fileLabelText.textContent = input.files[0].name;
+            } else {
+                fileLabelText.textContent = 'Click to Upload a CSV File';
+            }
+        }
+        
+        const uploadForm = document.getElementById('upload-form');
+        const manualForm = document.getElementById('manual-form');
+        const loader = document.getElementById('loader-overlay');
+        function showLoader() { loader.style.display = 'flex'; }
+        uploadForm.addEventListener('submit', showLoader);
+        manualForm.addEventListener('submit', showLoader);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.documentElement.style.setProperty('--glow-color', document.querySelector('.tab-link.active').dataset.color);
+            
+            const background = document.querySelector('.background-gradient');
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                background.style.transform = `translate(-${x * 20}px, -${y * 20}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

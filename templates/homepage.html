@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> Cogni Shield – Bank Fraud Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Feature Cards */
+    .features-cards-unique {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px 24px;
+      justify-content: center;
+      margin: 0 auto 40px auto;
+      width: 100%;
+      max-width: 870px;
+    }
+    .feature-card-unique {
+      background: var(--glass-bg);
+      border-radius: 16px;
+      border: 1.5px solid var(--border-color);
+      min-width: 200px;
+      max-width: 240px;
+      flex: 1;
+      box-shadow: 0 4px 28px 0 rgba(56, 189, 248, 0.1);
+      transition: transform 0.4s, box-shadow 0.4s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 38px 24px 28px 24px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 1.2s cubic-bezier(0.42, 0, 0.58, 1) both;
+    }
+    .feature-card-unique:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 10px 45px 0 rgba(232, 121, 249, 0.18);
+    }
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .feature-card-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .feature-card-title {
+      font-size: 1.15em;
+      font-weight: 600;
+      margin-bottom: 9px;
+      color: #8b5cf6;
+      text-align: center;
+    }
+    .feature-card-desc {
+      color: var(--text-secondary);
+      font-size: 0.98em;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* Tech Sections Container */
+    #stack {
+      max-width: 900px;
+      margin: 0 auto 40px auto;
+      text-align: center;
+    }
+    #stack > h2.section-title {
+      margin-bottom: 40px;
+    }
+
+    /* Individual tech groups */
+    .tech-section {
+      margin-bottom: 40px;
+    }
+    .tech-section h3 {
+      color: #38bdf8;
+      font-weight: 600;
+      font-size: 1.6em;
+      margin-bottom: 24px;
+    }
+    .tech-carousel-track {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scrollbar-width: thin;
+      scrollbar-color: #38bdf8 #222;
+    }
+    .tech-carousel-card {
+      min-width: 176px;
+      background: var(--glass-bg);
+      border-radius: 16px;
+      border: 1.8px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 22px 10px 16px 10px;
+      box-shadow: 0 2px 20px 0 rgba(139, 119, 255, 0.1);
+      transition: transform 0.45s, box-shadow 0.45s;
+      position: relative;
+      animation: fadeInUp 1.3s cubic-bezier(0.42, 0, 0.58, 1) both;
+      cursor: default;
+    }
+    .tech-carousel-card:hover {
+      transform: scale(1.08) translateY(-3px);
+      box-shadow: 0 12px 38px 0 rgba(56, 189, 248, 0.22);
+    }
+    .tech-logo-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 15px;
+    }
+    .tech-title {
+      font-size: 1em;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #38bdf8;
+      text-align: center;
+      user-select: none;
+    }
+    .tech-desc {
+      color: var(--text-secondary);
+      font-size: 0.95em;
+      text-align: center;
+      line-height: 1.4;
+      user-select: none;
+    }
+    .tech-carousel-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hero heading glow restored */
+    .hero-title-glow-original {
+      font-weight: 700;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      color: var(--text-primary);
+      text-shadow: 0 0 20px rgba(0, 201, 255, 0.7), 0 0 40px rgba(232, 121, 249, 0.7);
+      margin: 0;
+    }
+
+    /* About Section animation */
+    @keyframes about-entrance {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+        box-shadow: 0 0 0 rgba(56, 189, 248, 0);
+      }
+      70% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
+      }
+      100% {
+        box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+      }
+    }
+
+    @keyframes pulse-shadow {
+      0%,
+      100% {
+        box-shadow: 0 0 8px rgba(56, 189, 248, 0.25);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+      }
+    }
+
+    .about-animated {
+      animation: about-entrance 1s ease forwards, pulse-shadow 3s ease-in-out infinite 1.2s;
+      transform-origin: center center;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-gradient"></div>
+  <div class="content-wrapper homepage">
+    <!-- HERO (Original glow heading) -->
+    <header class="hero-section">
+      <h1 class="hero-title hero-title-glow-original animate-fade-in">
+        <span id="typewriter"></span>
+      </h1>
+      <p
+        class="hero-subtitle animate-fade-in"
+        style="animation-delay: 0.18s; font-size: 1.4em; letter-spacing: 2px"
+      >
+        <span
+          style="
+            background: linear-gradient(90deg, #38bdf8, #e879f9);
+            -webkit-background-clip: text;
+            color: transparent;
+          "
+          >Secure. Fast. Reliable.</span
+        >
+      </p>
+      <p class="hero-description animate-fade-in" style="animation-delay: 0.36s">
+        Secure your financial transactions with <b>Cogni Shield</b>, a powerful
+        web-based Bank Fraud Detection platform.<br />
+        Upload your transaction data, analyze instantly, and identify suspicious
+        activities to safeguard your system.
+      </p>
+      <a href="#how-it-works" class="cta-button animate-fade-in" style="animation-delay: 0.54s"
+        >Start Detecting </a
+      >
+      <div
+        class="scroll-down animate-fade-in"
+        style="
+          margin-top: 4vh;
+          animation: bounce 2s infinite;
+          filter: drop-shadow(0 0 18px #38bdf8);
+          animation-delay: 0.7s;
+          font-size: 2rem;
+        "
+      >
+        ⬇️
+      </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section class="info-section" id="about">
+      <div class="info-card about-animated">
+        <h3>About Cogni Shield</h3>
+        <p>
+          Our Bank Fraud Detection system is designed to protect financial transactions from fraudulent activities. In the fast-paced world of digital payments, safeguarding sensitive information is critical, and this platform offers a reliable way to do just that.<br />
+          <br />
+          It helps businesses, financial institutions, and individuals analyze
+          large sets of transaction data quickly and accurately using predefined
+          logic-based checks.<br />
+          <br />
+          Our goal is to provide an early warning system that prevents financial
+          losses and ensures safer transactions.This project aims to build trust in digital banking by delivering accurate, real-time insights that strengthen financial security and prevent losses before they occur.
+        </p>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="features-section" id="how-it-works">
+      <h2 class="section-title animate-fade-in" style="animation-delay: 0.96s">
+        How It Works
+      </h2>
+      <div class="interactive-grid">
+        <div
+          class="interactive-card flip-right animate-fade-in"
+          style="animation-delay: 1.1s"
+          tabindex="0"
+        >
+          <div class="card-front"><h3>📁 Upload CSV</h3></div>
+          <div class="card-back">
+            <p>Easily upload your transaction dataset in CSV format for secure analysis.</p>
+          </div>
+        </div>
+        <div
+          class="interactive-card flip-up animate-fade-in"
+          style="animation-delay: 1.2s"
+          tabindex="0"
+        >
+          <div class="card-front"><h3>⚡ Instant Analysis</h3></div>
+          <div class="card-back">
+            <p>The system processes thousands of rows within seconds using advanced logic.</p>
+          </div>
+        </div>
+        <div
+          class="interactive-card flip-left animate-fade-in"
+          style="animation-delay: 1.3s"
+          tabindex="0"
+        >
+          <div class="card-front"><h3>🧠 Fraud Status</h3></div>
+          <div class="card-back">
+            <p>Each transaction is labeled <b>Fraud</b> or <b>Not Fraud</b> with instant clarity.</p>
+          </div>
+        </div>
+        <div
+          class="interactive-card flip-down animate-fade-in"
+          style="animation-delay: 1.4s"
+          tabindex="0"
+        >
+          <div class="card-front"><h3>💾 Download Report</h3></div>
+          <div class="card-back">
+            <p>Export the analyzed results for further investigation or records.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY FEATURES -->
+    <section class="features-section" id="features">
+      <h2 class="section-title animate-fade-in" style="animation-delay: 1.54s">
+        Key Features
+      </h2>
+      <div class="features-cards-unique">
+        <div class="feature-card-unique" style="animation-delay: 1.68s">
+          <div class="feature-card-icon">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="24" cy="24" r="20" fill="#38bdf8" opacity="0.16" />
+              <path
+                d="M14 18l10 5 10-5"
+                stroke="#38bdf8"
+                stroke-width="2"
+                fill="none"
+              />
+              <rect
+                x="13"
+                y="14"
+                width="22"
+                height="20"
+                rx="3"
+                stroke="#38bdf8"
+                fill="none"
+                stroke-width="2"
+              />
+            </svg>
+          </div>
+          <div class="feature-card-title">Bulk Analysis</div>
+          <div class="feature-card-desc">
+            Process large datasets (1 lakh+ rows) quickly and efficiently.
+          </div>
+        </div>
+        <div class="feature-card-unique" style="animation-delay: 1.78s">
+          <div class="feature-card-icon">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="12"
+                y="10"
+                width="24"
+                height="28"
+                rx="4"
+                fill="#e879f9"
+                opacity="0.15"
+              />
+              <path
+                d="M16 18h16M16 24h16M16 30h11"
+                stroke="#e879f9"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <div class="feature-card-title">Manual Entry</div>
+          <div class="feature-card-desc">
+            Check single transactions via a simple guided entry form.
+          </div>
+        </div>
+        <div class="feature-card-unique" style="animation-delay: 1.88s">
+          <div class="feature-card-icon">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="24" cy="24" r="19" fill="#38bdf8" opacity="0.13" />
+              <polyline
+                points="14 26 22 34 34 16"
+                stroke="#38bdf8"
+                stroke-width="2"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div class="feature-card-title">Fast &amp; Reliable</div>
+          <div class="feature-card-desc">
+            Get instant results with consistent, rule-based checks.
+          </div>
+        </div>
+        <div class="feature-card-unique" style="animation-delay: 1.98s">
+          <div class="feature-card-icon">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="10"
+                y="16"
+                width="28"
+                height="16"
+                rx="4"
+                fill="#8b5cf6"
+                opacity="0.1"
+              />
+              <path
+                d="M14 20h20v8H14z"
+                stroke="#8b5cf6"
+                stroke-width="2"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div class="feature-card-title">Report Generation</div>
+          <div class="feature-card-desc">
+            Download analyzed results in CSV or PDF format.
+          </div>
+        </div>
+        <div class="feature-card-unique" style="animation-delay: 2.08s">
+          <div class="feature-card-icon">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="6"
+                y="12"
+                width="36"
+                height="24"
+                rx="8"
+                fill="#e879f9"
+                opacity="0.11"
+              />
+              <rect
+                x="12"
+                y="18"
+                width="24"
+                height="12"
+                rx="3"
+                stroke="#e879f9"
+                stroke-width="2"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div class="feature-card-title">Interactive UI</div>
+          <div class="feature-card-desc">
+            A clean, modern, responsive interface for a smooth user experience.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNOLOGY STACK USED -->
+    <section class="info-section" id="stack">
+      <h2 class="section-title animate-fade-in" style="animation-delay: 2.18s">
+        Technology Stack Used
+      </h2>
+      <!-- Languages -->
+      <div class="tech-section animate-fade-in" style="animation-delay: 2.28s">
+        <h3>Programming Languages</h3>
+        <div class="tech-carousel-track">
+          <div class="tech-carousel-card">
+            <div class="tech-logo-icon" aria-label="Python" role="img">
+              <svg
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <ellipse cx="24" cy="24" rx="21" ry="21" fill="#3776AB" />
+                <path
+                  d="M34.5,16.5Q36,18,34,19Q33,19,32.5,18Q31,15,27.5,15H21V18H24Q26,18,24.5,19Q22,20.5,20.5,19.5Q19.5,17,20,16"
+                  fill="#fff"
+                  opacity="0.68"
+                />
+                <circle cx="32" cy="19.5" r="1.2" fill="#ffd43b" />
+              </svg>
+            </div>
+            <div class="tech-title">Python</div>
+            <div class="tech-desc">For backend, data analysis, core logic.</div>
+          </div>
+          <div class="tech-carousel-card">
+            <div class="tech-logo-icon" aria-label="HTML5" role="img">
+              <svg
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <rect width="48" height="48" rx="24" fill="#e44d26" />
+                <text
+                  x="24"
+                  y="32"
+                  text-anchor="middle"
+                  fill="#fff"
+                  font-size="17"
+                  font-family="Arial"
+                  dy="0.35em"
+                  >&#60;/&#62;</text
+                >
+              </svg>
+            </div>
+            <div class="tech-title">HTML5</div>
+            <div class="tech-desc">Structured page markup and accessibility.</div>
+          </div>
+          <div class="tech-carousel-card">
+            <div class="tech-logo-icon" aria-label="CSS3" role="img">
+              <svg
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <rect width="48" height="48" rx="24" fill="#38bdf8" />
+                <text
+                  x="24"
+                  y="32"
+                  text-anchor="middle"
+                  fill="#fff"
+                  font-size="17"
+                  font-family="Arial"
+                  dy="0.35em"
+                  >CSS</text
+                >
+              </svg>
+            </div>
+            <div class="tech-title">CSS3</div>
+            <div class="tech-desc">
+              Advanced visual styling, layout, and animation.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tools & Platforms -->
+      <div class="tech-section animate-fade-in" style="animation-delay: 2.38s">
+        <h3>Tools &amp; Platforms</h3>
+        <div class="tech-carousel-track">
+          <div class="tech-carousel-card">
+            <div class="tech-logo-icon" aria-label="Google Colab" role="img">
+              <svg
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <circle cx="24" cy="24" r="21" fill="#f9ab00" />
+                <text
+                  x="24"
+                  y="32"
+                  text-anchor="middle"
+                  fill="#fff"
+                  font-size="18"
+                  font-family="Arial"
+                  dy="0.35em"
+                  >Colab</text
+                >
+              </svg>
+            </div>
+            <div class="tech-title">Google Colab</div>
+            <div class="tech-desc">Cloud-based rapid prototyping & training.</div>
+          </div>
+          <div class="tech-carousel-card">
+            <div class="tech-logo-icon" aria-label="Jupyter Notebook" role="img">
+              <svg
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <ellipse cx="24" cy="24" rx="20" ry="16" fill="#f37726" />
+                <text
+                  x="24"
+                  y="29.5"
+                  text-anchor="middle"
+                  fill="#fff"
+                  font-size="16"
+                  font-family="Arial"
+                  dy="0.35em"
+                  >Jupyter</text
+                >
+              </svg>
+            </div>
+            <div class="tech-title">Jupyter Notebook</div>
+            <div class="tech-desc">Exploratory data analysis and reporting.</div>
+          </div>
+          <div class="tech-carousel-card">
+            <div class="tech-logo-icon" aria-label="Kaggle" role="img">
+              <svg
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <rect width="48" height="48" rx="24" fill="#20beff" />
+                <text
+                  x="24"
+                  y="32"
+                  text-anchor="middle"
+                  fill="#fff"
+                  font-size="18"
+                  font-family="Arial"
+                  dy="0.35em"
+                  >Kaggle</text
+                >
+              </svg>
+            </div>
+            <div class="tech-title">Kaggle</div>
+            <div class="tech-desc">Rich open datasets and competitions.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Web Framework -->
+      <div class="tech-section animate-fade-in" style="animation-delay: 2.48s">
+        <h3>Web Framework</h3>
+        <div class="tech-carousel-track" style="justify-content: center;">
+          <div class="tech-carousel-card">
+            <div class="tech-logo-icon" aria-label="Flask" role="img">
+              <svg
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <ellipse cx="24" cy="25" rx="17" ry="15" fill="#222" />
+                <path
+                  d="M17 38 Q21 43 25 38 Q30 36 31 34"
+                  stroke="#fff"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <ellipse cx="27" cy="19" rx="7" ry="3" fill="#fff" opacity="0.13" />
+              </svg>
+            </div>
+            <div class="tech-title">Flask</div>
+            <div class="tech-desc">Backend server for APIs and web routing.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Closing -->
+    <section class="hero-section cta-section">
+      <p class="hero-description animate-fade-in" style="animation-delay: 2.54s">
+        Detect suspicious transactions before they cause damage.<br />
+        Start protecting your financial data with Aegis Shield today.
+      </p>
+      <a href="/detector" class="cta-button animate-fade-in" style="animation-delay: 2.58s">
+        Launch the Detector 
+      </a>
+    </section>
+  </div>
+
+  <script>
+    // Typewriter effect for hero title
+    const heroText = " Cogni Shield – Bank Fraud Detection";
+    let typeIndex = 0;
+    function runTypewriter() {
+      if (typeIndex < heroText.length) {
+        document.getElementById("typewriter").innerHTML += heroText.charAt(typeIndex);
+        typeIndex++;
+        setTimeout(runTypewriter, 65 + Math.random() * 25);
+      }
+    }
+    window.onload = runTypewriter;
+
+    // Flip cards interaction
+    document.querySelectorAll(".interactive-card").forEach((card) => {
+      card.addEventListener("click", () => card.classList.toggle("is-flipped"));
+      card.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" || e.key === " ") card.classList.toggle("is-flipped");
+      });
+    });
+  </script>
+</body>
+</html>

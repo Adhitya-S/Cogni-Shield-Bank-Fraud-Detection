@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis Shield - Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-gradient"></div>
+    <div class="content-wrapper">
+        <a href="/" class="nav-link">← Home</a>
+        <div class="glass-container results-container animate-fade-in">
+            <header class="main-header">
+                <h1>Analysis Report</h1>
+            </header>
+
+            {% if no_fraud %}
+                <div class="no-fraud-message">
+                    <span class="result-icon">✅</span>
+                    <h2>All Clear!</h2>
+                    <p>No fraudulent transactions were detected.</p>
+                </div>
+            {% else %}
+                <div class="results-table-wrapper">
+                    <div class="results-table">
+                        <h2>Detected Fraudulent Transactions</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Income</th><th>Age</th><th>Payment Type</th><th>Credit Score</th><th>Prediction</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in transactions %}
+                                <tr class="fraud-row">
+                                    <td>{{ transaction.income }}</td><td>{{ transaction.customer_age }}</td><td>{{ transaction.payment_type }}</td><td>{{ transaction.credit_risk_score }}</td><td><span class="status-fraud">{{ transaction.Prediction }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="download-section">
+                    <h3>Export Report</h3>
+                    <div class="button-group">
+                        <a href="/download/csv" class="btn-glow">Download CSV</a>
+                        <a href="/download/pdf" class="btn-glow">Download PDF</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <a href="/detector" class="back-link">← Run Another Analysis</a>
+        </div>
+    </div>
+</body>
+</html>
