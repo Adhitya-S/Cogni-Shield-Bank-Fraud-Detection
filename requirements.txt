@@ -37,6 +37,7 @@ GitPython==3.1.44
 google-auth==2.40.3
 googleapis-common-protos==1.70.0
 grpcio==1.73.1
+gunicorn==23.0.0
 h11==0.16.0
 h2 @ file:///home/conda/feedstock_root/build_artifacts/h2_1738578511449/work
 hf-xet==1.1.3
